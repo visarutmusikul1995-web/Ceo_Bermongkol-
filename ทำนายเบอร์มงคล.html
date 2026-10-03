@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ทำนายเบอร์มงคล</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@600;800&family=Sarabun:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#070605;--panel:#12100b;--gold:#e6c067;--gold2:#a8802f;--text:#f1e4c3;--mut:#b9a577;--red:#e5484d;--yel:#f0b429;--grn:#3ecf6e;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:radial-gradient(ellipse at 50% -10%,#3a2c10 0,#0d0a05 45%,#050403 100%) fixed;color:var(--text);font-family:Sarabun,"Noto Sans Thai",sans-serif;line-height:1.6;min-height:100vh}
+main{max-width:860px;margin:0 auto;padding:40px 18px 56px;text-align:center}
+h1{font-family:"Noto Serif Thai",serif;font-weight:800;font-size:clamp(34px,8vw,64px);margin:0 0 6px;line-height:1.35;background:linear-gradient(180deg,#fff3c4,#e6c067 55%,#a8802f);-webkit-background-clip:text;background-clip:text;color:transparent}
+.orn{height:1px;width:min(380px,70%);margin:6px auto 18px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.sub{color:var(--mut);margin:0 0 26px}
+.bar{display:flex;gap:8px;padding:8px;border:1px solid var(--gold2);border-radius:16px;background:linear-gradient(180deg,#1a160d,#0a0805);box-shadow:0 0 30px rgba(230,192,103,.12)}
+.bar input{flex:1;min-width:0;background:transparent;border:0;color:var(--gold);font:500 clamp(20px,5vw,32px) Sarabun,sans-serif;letter-spacing:.12em;text-align:center;padding:10px 6px}
+.bar input::placeholder{color:#6f6240}
+.bar input:focus{outline:none}
+.bar:focus-within{border-color:var(--gold);box-shadow:0 0 0 2px rgba(230,192,103,.35)}
+.btn{border:0;border-radius:11px;padding:0 24px;font:600 18px Sarabun,sans-serif;color:#2a1d04;background:linear-gradient(180deg,#f6dc93,#c9a04a);cursor:pointer}
+.btn:hover{filter:brightness(1.08)}.btn:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.err{min-height:28px;margin:10px 0 14px;text-align:left;color:#e8c98a}
+.err.bad{color:#ff8a80}
+details{border:1px solid var(--gold2);border-radius:14px;background:rgba(18,16,11,.8);text-align:left;margin-bottom:14px}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;color:var(--gold);list-style:none;display:flex;justify-content:space-between}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"⌄";transition:transform .2s}
+details[open] summary::after{transform:rotate(180deg)}
+.tbl{padding:0 14px 14px;display:grid;gap:6px;grid-template-columns:1fr 1fr}
+.tbl div{display:flex;gap:10px;padding:8px 10px;border-radius:8px;background:#0c0a06;border:1px solid #2b2210;font-size:15px}
+.tbl b{color:var(--gold);min-width:26px}
+.tbl .hit{border-color:var(--gold);background:#2a210c;box-shadow:0 0 14px rgba(230,192,103,.3)}
+.note{font-size:13px;color:var(--mut);margin:18px 0 0}
+#res{display:none;text-align:left;margin:22px 0}
+#res.on{display:block;animation:rise .5s ease-out}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){#res.on{animation:none}}
+.card{border:1px solid var(--gold2);border-radius:16px;background:rgba(18,16,11,.88);padding:20px;margin-bottom:16px}
+.hero{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.grade{width:120px;height:120px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--gold);font:800 54px "Noto Serif Thai",serif;color:var(--gold);box-shadow:0 0 28px rgba(230,192,103,.3)}
+.hero .info{flex:1;min-width:200px}
+.num{font-size:22px;letter-spacing:.1em;color:var(--gold);font-weight:600}
+.score{font-size:15px;color:var(--mut)}.score b{font-size:30px;color:var(--text)}
+.sum{padding:14px 16px;border-radius:12px;background:#0c0a06;border:1px solid #2b2210;margin-top:12px}
+.sum.hit{border-color:var(--gold);background:#2a210c}
+h2{font-size:19px;color:var(--gold);margin:0 0 14px}
+.row{margin-bottom:16px}
+.row .top{display:flex;justify-content:space-between;gap:8px;font-weight:600}
+.tag{font-size:14px;padding:1px 10px;border-radius:99px;color:#111}
+.track{height:12px;border-radius:99px;background:#241d0e;overflow:hidden;margin:6px 0}
+.fill{height:100%;width:0;border-radius:99px;transition:width .9s cubic-bezier(.2,.7,.2,1)}
+.row p{margin:0;font-size:15px;color:#d9c9a0}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--mut)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+@media(max-width:560px){.tbl{grid-template-columns:1fr}.btn{padding:0 16px;font-size:16px}}
+</style>
+</head>
+<body>
+<main>
+<h1>ทำนายเบอร์มงคล</h1>
+<div class="orn"></div>
+<p class="sub">ใส่เบอร์มือถือ 10 หลัก แล้วกดทำนายเพื่อดูเกรด คะแนน และดวงชะตา</p>
+
+<div class="bar">
+<input id="ph" inputmode="numeric" autocomplete="off" maxlength="12" placeholder="08x-xxx-xxxx" aria-label="เบอร์มือถือ 10 หลัก">
+<button class="btn" id="go">ทำนายเบอร์ ›</button>
+</div>
+<div class="err" id="err" role="status">กรุณากรอกเบอร์มือถือ 10 หลักที่ขึ้นต้นด้วย 0</div>
+
+<section id="res" aria-live="polite">
+<div class="card hero">
+<div class="grade" id="gr">A</div>
+<div class="info">
+<div class="num" id="rn"></div>
+<div class="score"><b id="sc">0</b> / 1000 คะแนน</div>
+<div id="gt" style="color:var(--gold)"></div>
+<div class="sum" id="sm"></div>
+</div>
+</div>
+<div class="card">
+<h2>สรุปผลวิเคราะห์ดวงชะตา</h2>
+<div id="cats"></div>
+<div class="legend"><span><i style="background:var(--red)"></i>ไม่ดี</span><span><i style="background:var(--yel)"></i>ปานกลาง</span><span><i style="background:var(--grn)"></i>ดีมาก</span></div>
+</div>
+</section>
+
+<details id="tb"><summary>ตารางผลรวมเบอร์มงคล</summary><div class="tbl" id="tbl"></div></details>
+
+<p class="note">เกณฑ์เกรด: 850-1000 A+ , 700-849 A , 500-699 B , 200-499 C , 0-199 D<br>คำทำนายเป็นความเชื่อเพื่อความบันเทิง โปรดใช้วิจารณญาณ</p>
+</main>
+<script>
+const LUCKY={65:"คู่ทรัพย์ คู่โชค",64:"ชีวิตพบกับความสำเร็จ",63:"พลังความรักความสดชื่น",60:"มีโชคเรื่องการเงิน",59:"ยอดแห่งรหัสชีวิต",56:"มีโชคเรื่องความรัก",55:"เจริญก้าวหน้า และสุขสบาย",54:"พลังแห่งมหาราชาโชคความสำเร็จ",51:"พลังแห่งความสมบูรณ์",50:"พลังแห่งปัญญาและความสามารถ",46:"พลังแห่งโชค",45:"เทพีแห่งโชค",44:"พลังส่งเสริมความสำเร็จ",42:"ดวงอุปถัมภ์",41:"พลังมหาจักรวาล",40:"พลังอำนาจมหัศจรรย์",36:"พลังแห่งความรัก"};
+const CATS=[
+["การเงิน",["เงินรั่วไหลง่าย ควรวางแผนใช้จ่ายและเก็บออมอย่างรัดกุม","รายได้พอเพียง มีขึ้นลงบ้าง ควรบริหารเงินอย่างสม่ำเสมอ","เงินทองไหลมาเทมา มีโชคลาภและโอกาสด้านการลงทุน"]],
+["การงาน",["งานมีอุปสรรค ต้องอดทนและพิสูจน์ตัวเองมากกว่าปกติ","งานก้าวหน้าตามลำดับ มีผู้ใหญ่คอยสนับสนุนเป็นครั้งคราว","หน้าที่การงานรุ่งเรือง ได้รับความไว้วางใจและโอกาสเลื่อนขั้น"]],
+["ความรัก",["ความรักมีความเข้าใจผิดบ่อย ควรสื่อสารให้ชัดเจน","ความรักราบรื่นปานกลาง ต้องใส่ใจกันมากขึ้นเพื่อความมั่นคง","เสน่ห์โดดเด่น ความรักอบอุ่น มีโอกาสพบคนที่ใช่"]],
+["สุขภาพ",["ต้องระวังความเครียดและพักผ่อนไม่พอ ควรตรวจสุขภาพประจำปี","สุขภาพโดยรวมปกติ ดูแลการนอนและการออกกำลังกายให้สม่ำเสมอ","ร่างกายแข็งแรง ฟื้นตัวไว จิตใจแจ่มใส"]],
+["อุปนิสัย",["ใจร้อน อารมณ์แปรปรวนง่าย ควรฝึกสติและใจเย็นลง","มีเหตุผล ปรับตัวได้ดี แต่บางครั้งลังเลตัดสินใจ","มีเมตตา มั่นใจ เป็นที่รักของคนรอบข้าง ผู้คนอยากเข้าใกล้"]]];
+const $=id=>document.getElementById(id);
+function rng(seed){let s=seed>>>0;return()=>{s=Math.imul(s^s>>>15,2246822507)>>>0;s=Math.imul(s^s>>>13,3266489909)>>>0;s^=s>>>16;return(s>>>0)/4294967296}}
+function hash(str){let h=2166136261;for(const c of str){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+function grade(s){return s>=850?["A+","ดีเยี่ยม พลังเบอร์ระดับสูงสุด"]:s>=700?["A","ดีมาก เป็นเบอร์ที่เสริมดวง"]:s>=500?["B","ดี ใช้งานได้ดี มีจุดเด่นบางด้าน"]:s>=200?["C","พอใช้ ควรเสริมดวงด้านอื่นควบคู่"]:["D","ควรพิจารณาเปลี่ยนเบอร์"]}
+function fmt(d){return d.length>6?d.slice(0,3)+"-"+d.slice(3,6)+"-"+d.slice(6):d.length>3?d.slice(0,3)+"-"+d.slice(3):d}
+function analyze(d){
+const sum=[...d].reduce((a,c)=>a+ +c,0);
+const r=rng(hash(d));
+let score=250+r()*400;
+if(LUCKY[sum])score+=180+r()*120;
+for(let i=1;i<10;i++)if(d[i]===d[i-1])score+=12;
+const tail=d.slice(-4);if(tail[0]===tail[2]&&tail[1]===tail[3])score+=40;
+const fours=[...d].filter(c=>c==="4").length;score-=fours*8;
+score=Math.max(0,Math.min(1000,Math.round(score)));
+const cats=CATS.map(([n,t],i)=>{let v=Math.round(Math.max(5,Math.min(98,score/10*0.75+r()*35-5+(LUCKY[sum]?6:0))));return{n,v,t}});
+return{sum,score,cats}}
+function render(d){
+const a=analyze(d),g=grade(a.score);
+$("gr").textContent=g[0];$("gt").textContent="เกรด "+g[0]+" · "+g[1];
+$("rn").textContent=fmt(d);$("sc").textContent=a.score;
+const hit=LUCKY[a.sum];const sm=$("sm");
+sm.className="sum"+(hit?" hit":"");
+sm.innerHTML=hit?`ผลรวมเบอร์ <b style="color:var(--gold)">${a.sum}</b> — ${hit} ✦`:`ผลรวมเบอร์ <b>${a.sum}</b> — ไม่ตรงกลุ่มเลขมงคล`;
+$("cats").innerHTML=a.cats.map(c=>{const lv=c.v>=70?2:c.v>=40?1:0;const col=["var(--red)","var(--yel)","var(--grn)"][lv];const lb=["ไม่ดี","ปานกลาง","ดีมาก"][lv];
+return`<div class="row"><div class="top"><span>${c.n}</span><span class="tag" style="background:${col}">${lb} ${c.v}%</span></div><div class="track"><div class="fill" data-w="${c.v}" style="background:${col}"></div></div><p>${c.t[lv]}</p></div>`}).join("");
+$("res").classList.add("on");
+requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelectorAll(".fill").forEach(f=>f.style.width=f.dataset.w+"%")));
+document.querySelectorAll("#tbl div").forEach(e=>e.classList.toggle("hit",+e.dataset.k===a.sum));
+if(hit)$("tb").open=true;
+$("res").scrollIntoView({behavior:"smooth",block:"start"})}
+function go(){
+const d=$("ph").value.replace(/\D/g,"");const e=$("err");
+if(d.length!==10||d[0]!=="0"){e.className="err bad";e.textContent="กรุณากรอกเบอร์มือถือ 10 หลักที่ขึ้นต้นด้วย 0";$("res").classList.remove("on");return}
+e.className="err";e.textContent="วิเคราะห์เบอร์ "+fmt(d)+" เรียบร้อย";render(d)}
+$("tbl").innerHTML=Object.keys(LUCKY).sort((a,b)=>b-a).map(k=>`<div data-k="${k}"><b>${k}</b><span>${LUCKY[k]}</span></div>`).join("");
+$("ph").addEventListener("input",e=>{e.target.value=fmt(e.target.value.replace(/\D/g,"").slice(0,10))});
+$("ph").addEventListener("keydown",e=>{if(e.key==="Enter")go()});
+$("go").addEventListener("click",go);
+</script>
+</body>
+</html>
